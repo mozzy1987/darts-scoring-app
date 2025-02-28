@@ -289,5 +289,12 @@ function getCheckout(score) {
     return checkoutTable[score] || "No checkout available";
 }
 
+// Set up webcam feed
+navigator.mediaDevices
+  .getUserMedia({ video: true })
+  .then((stream) => (document.getElementById("webcamFeed").srcObject = stream))
+  .catch((err) => console.error("Webcam error:", err));
+
 // Initialize UI
 updateUI();
+
