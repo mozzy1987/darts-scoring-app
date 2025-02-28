@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darts 501 Scoring</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="leftPanel">
+        <h1>Darts 501 Scoring</h1>
+
+        <!-- Game Settings -->
+        <div id="gameSettings">
+            <label for="player1NameInput">Player 1:</label>
+            <input type="text" id="player1NameInput" value="Player 1">
+            <label for="player2NameInput">Player 2:</label>
+            <input type="text" id="player2NameInput" value="Player 2">
+            
+            <label for="legsSelect">Best of:</label>
+            <select id="legsSelect">
+                <option value="3">Best of 3</option>
+                <option value="5">Best of 5</option>
+                <option value="7">Best of 7</option>
+            </select>
+            
+            <button onclick="startGame()">Start Game</button>
+        </div>
+
+        <p id="startGameBtn">Press Start Game</p>
+
+        <div id="gameArea">
+            <div id="playersContainer">
+                <div class="player-section">
+                    <h2 id="player1Name">Player 1</h2>
+                    <p class="score">Score: <span id="player1Score">501</span></p>
+                    <p class="legs">Legs Won: <span id="player1Legs">0</span></p>
+                    <p class="checkout">Checkout: <span id="player1Checkout">N/A</span></p>
+                    <input type="number" id="player1Input" disabled>
+                    <button onclick="submitScore(1)" disabled>Submit</button>
+                </div>
+
+                <div class="player-section">
+                    <h2 id="player2Name">Player 2</h2>
+                    <p class="score">Score: <span id="player2Score">501</span></p>
+                    <p class="legs">Legs Won: <span id="player2Legs">0</span></p>
+                    <p class="checkout">Checkout: <span id="player2Checkout">N/A</span></p>
+                    <input type="number" id="player2Input" disabled>
+                    <button onclick="submitScore(2)" disabled>Submit</button>
+                </div>
+            </div>
+
+            <button onclick="correctLastScore()">Correct Last Score</button>
+        </div>
+    </div>
+
+    <div id="rightPanel">
+        <video id="webcamFeed" autoplay></video>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
