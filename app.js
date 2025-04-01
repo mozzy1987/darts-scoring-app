@@ -298,3 +298,139 @@ navigator.mediaDevices
 // Initialize UI
 updateUI();
 
+function checkWin() {
+    let winner = null;
+    if (player1Legs >= Math.ceil(bestOfLegs / 2)) {
+        winner = document.getElementById("player1Name").innerText;
+    } else if (player2Legs >= Math.ceil(bestOfLegs / 2)) {
+        winner = document.getElementById("player2Name").innerText;
+    }
+
+    if (winner) {
+        startConfetti();
+        explodeEffect();
+        showWinnerBox(winner);
+        return true;
+    }
+
+    player1Score = 501;
+    player2Score = 501;
+    return false;
+}
+
+
+
+function resetGame() {
+    player1Score = 501;
+    player2Score = 501;
+    player1Legs = 0;
+    player2Legs = 0;
+
+    document.getElementById("player1Score").innerText = player1Score;
+    document.getElementById("player2Score").innerText = player2Score;
+    document.getElementById("player1Legs").innerText = player1Legs;
+    document.getElementById("player2Legs").innerText = player2Legs;
+
+    // Stop effects
+    stopEffects();
+    winnerBox.style.display = "none";
+
+    console.log("Game has been reset.");
+}
+
+
+// Create canvas for effects
+const canvas = document.createElement("canvas");
+document.body.appendChild(canvas);
+const ctx = canvas.getContext("2d");
+
+canvas.style.position = "fixed";
+canvas.style.top = "0";
+canvas.style.left = "0";
+canvas.style.width = "100%";
+canvas.style.height = "100%";
+canvas.style.pointerEvents = "none";
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// Winner Box Setup
+const winnerBox = document.createElement("div");
+winnerBox.style.position = "fixed";
+winnerBox.style.top = "50%";
+winnerBox.style.left = "50%";
+winnerBox.style.transform = "translate(-50%, -50%)";
+winnerBox.style.background = "gold";
+winnerBox.style.color = "black";
+winnerBox.style.padding = "20px 40px";
+winnerBox.style.fontSize = "24px";
+winnerBox.style.fontWeight = "bold";
+winnerBox.style.textAlign = "center";
+winnerBox.style.borderRadius = "10px";
+winnerBox.style.boxShadow = "0 0 20px rgba(255, 215, 0, 0.8)";
+winnerBox.style.display = "none";
+document.body.appendChild(winnerBox);
+
+let particles = [];
+
+function startConfetti() {
+    particles = Array.from({ length: 100 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        size: Math.random() * 5 + 5,
+        speed: Math.random() * 5 + 2,
+        color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+        rotation: Math.random() * 360
+    }));
+
+    requestAnimationFrame(updateEffects);
+    setTimeout(stopEffects, 10000); // Stop after 10 seconds
+}
+
+function explodeEffect() {
+    let centerX = canvas.width / 2;
+    let centerY = canvas.height / 2;
+
+    for (let i = 0; i < 50; i++) {
+        let angle = Math.random() * Math.PI * 2;
+        let speed = Math.random() * 10 + 5;
+
+        particles.push({
+            x: centerX,
+            y: centerY,
+            size: Math.random() * 8 + 5,
+            color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+            speedX: Math.cos(angle) * speed,
+            speedY: Math.sin(angle) * speed
+        });
+    }
+
+    requestAnimationFrame(updateEffects);
+}
+
+function showWinnerBox(winner) {
+    winnerBox.innerText = `${winner} Wins! 🎯`;
+    winnerBox.style.display = "block";
+
+    setTimeout(() => {
+        winnerBox.style.display = "none"; // Hide after 3 seconds
+    }, 3000);
+}
+
+function updateEffects() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p) => {
+        p.x += p.speedX || 0;
+        p.y += p.speedY || p.speed;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+    });
+
+    if (particles.length > 0) requestAnimationFrame(updateEffects);
+}
+
+function stopEffects() {
+    particles = [];
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}

@@ -27,9 +27,6 @@
             
             <button onclick="startGame()">Start Game</button>
         </div>
-
-        <p id="startGameBtn">Press Start Game</p>
-
         <div id="gameArea">
             <div id="playersContainer">
                 <div class="player-section">
@@ -52,13 +49,15 @@
             </div>
 
             <button onclick="correctLastScore()">Correct Last Score</button>
+            <button onclick="resetGame()">Reset Game</button>
+
         </div>
     </div>
 
     <div id="rightPanel">
         <video id="webcamFeed" autoplay></video>
         <img id="pintOverlay" src="pint-glass.png" alt="Logo">
-       <!-- <img id="logoOverlay" src="your-logo.png" alt="Logo"> -->
+       <img id="logoOverlay" src="your-logo.png" alt="Logo">
     <script src="app.js"></script>
 </body>
 </html>
